@@ -3,7 +3,6 @@ package ru.job4j.pooh;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,16 +34,7 @@ public class PoohServer {
                             var name = details[1];
                             var text = details[2];
                             if (action.equals("intro")) {
-                                if (name.equals("queue")) {
-                                    queueSchema.addReceiver(
-                                            new SocketReceiver(text, new PrintWriter(out))
-                                    );
-                                }
-                                if (name.equals("topic")) {
-                                    topicSchema.addReceiver(
-                                            new SocketReceiver(text, new PrintWriter(out))
-                                    );
-                                }
+                                addReceiverByName(name, text, out);
                             }
                             if (action.equals("queue")) {
                                 queueSchema.publish(new Message(name, text));
@@ -60,6 +50,19 @@ public class PoohServer {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void addReceiverByName(String name, String text, OutputStream out) {
+        if (name.equals("queue")) {
+            queueSchema.addReceiver(
+                new SocketReceiver(text, new PrintWriter(out))
+            );
+        }
+        if (name.equals("topic")) {
+            topicSchema.addReceiver(
+                new SocketReceiver(text, new PrintWriter(out))
+            );
         }
     }
 
