@@ -9,7 +9,6 @@ import java.util.concurrent.CountDownLatch;
 import static org.assertj.core.api.Assertions.*;
 
 class QueueSchemaTest {
-
     @Test
     public void whenTwoReceivers() throws InterruptedException {
         var queue = new QueueSchema();
@@ -24,7 +23,6 @@ class QueueSchemaTest {
         thread.interrupt();
         assertThat(result).contains("18");
     }
-
 
     @Test
     public void whenSingleReceiver() throws InterruptedException {
